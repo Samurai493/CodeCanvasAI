@@ -15,6 +15,12 @@ interface CodeContextType {
   setComplexityScore: (score: number) => void;
   activeModule: string | null;
   setActiveModule: (module: string | null) => void;
+
+  // Persisted Visualization State
+  chart: string;
+  setChart: (chart: string) => void;
+  learningPath: any | null;
+  setLearningPath: (path: any | null) => void;
 }
 
 const CodeContext = createContext<CodeContextType | undefined>(undefined);
@@ -28,6 +34,10 @@ export const CodeProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   // New State
   const [complexityScore, setComplexityScore] = useState<number>(0);
   const [activeModule, setActiveModule] = useState<string | null>(null);
+
+  // New State: Persistent Visualization
+  const [chart, setChart] = useState<string>('');
+  const [learningPath, setLearningPath] = useState<any | null>(null);
 
   return (
     <CodeContext.Provider 
@@ -43,7 +53,11 @@ export const CodeProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         complexityScore,
         setComplexityScore,
         activeModule,
-        setActiveModule
+        setActiveModule,
+        chart,
+        setChart,
+        learningPath,
+        setLearningPath
       }}
     >
       {children}

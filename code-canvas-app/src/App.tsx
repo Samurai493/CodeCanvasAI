@@ -12,9 +12,18 @@ import { initializeGemini, getGeminiClient, ARCHITECT_PROMPT, PROFESSOR_PROMPT, 
 import { Group as PanelGroup, Panel, Separator as PanelResizeHandle } from 'react-resizable-panels';
 // --- Workspace Component (The "Canvas") ---
 const CanvasWorkspace = () => {
-    const { code, setCode, isAnalyzing, setIsAnalyzing, setAnalysisResult, setComplexityScore } = useCodeContext();
-    const [chart, setChart] = useState('');
-    const [learningPath, setLearningPath] = useState<any>(null);
+    const {
+        code,
+        setCode,
+        isAnalyzing,
+        setIsAnalyzing,
+        setAnalysisResult,
+        setComplexityScore,
+        chart,
+        setChart,
+        learningPath,
+        setLearningPath
+    } = useCodeContext();
     const [error, setError] = useState<string | null>(null);
 
     const handleAnalyze = async () => {
