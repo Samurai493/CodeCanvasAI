@@ -9,7 +9,7 @@ import { VibeStudio } from './pages/VibeStudio';
 import { LiveSession } from './pages/LiveSession';
 import { SettingsPage } from './pages/SettingsPage';
 import { initializeGemini, getGeminiClient, ARCHITECT_PROMPT, PROFESSOR_PROMPT, parseGeminiError } from './lib/gemini';
-
+import { Group as PanelGroup, Panel, Separator as PanelResizeHandle } from 'react-resizable-panels';
 // --- Workspace Component (The "Canvas") ---
 const CanvasWorkspace = () => {
     const { code, setCode, isAnalyzing, setIsAnalyzing, setAnalysisResult, setComplexityScore } = useCodeContext();
@@ -66,7 +66,7 @@ const CanvasWorkspace = () => {
     };
 
     return (
-        <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-8 h-full p-8 bg-gray-950 overflow-hidden">
+        <div className="flex-1 h-full p-4 bg-gray-950 overflow-hidden">
              
              {/* API Error Toast */}
              {/* API Error Modal */}
@@ -99,25 +99,33 @@ const CanvasWorkspace = () => {
                 </div>
             )}
 
-            {/* Left: Code Input */}
-            <div className="lg:col-span-4 flex flex-col min-h-0">
-                <CodeInput 
-                    code={code} 
-                    setCode={setCode} 
-                    onAnalyze={handleAnalyze} 
-                    isAnalyzing={isAnalyzing} 
-                />
-            </div>
+            <PanelGroup orientation="horizontal" className="h-full gap-2">
+                {/* Left: Code Input */}
+                <Panel defaultSize={30} minSize={20} className="flex flex-col min-h-0 bg-gray-900/50 overflow-hidden border border-gray-800">
+                    <CodeInput 
+                        code={code} 
+                        setCode={setCode} 
+                        onAnalyze={handleAnalyze} 
+                        isAnalyzing={isAnalyzing} 
+                    />
+                </Panel>
 
-            {/* Center: Visualizer */}
-            <div className="lg:col-span-5 flex flex-col min-h-0">
-                 <Visualizer chart={chart} />
-            </div>
-
-            {/* Right: Learning Path */}
-            <div className="lg:col-span-3 flex flex-col min-h-0">
-                 <LearningPath data={learningPath} />
-            </div>
+                <PanelResizeHandle className="w-2 mx-1 bg-gray-800 hover:bg-blue-600 transition-colors rounded-full cursor-col-resize flex items-center justify-center group">
+                    <div className="h-8 w-1 bg-gray-600 group-hover:bg-white rounded-full transition-colors"/>
+                </PanelResizeHandle>
+                {/* Center: Visualizer */}
+                <Panel defaultSize={40} minSize={20} className="flex flex-col min-h-0">
+                    <Visualizer chart={chart}/>
+                </Panel>
+                
+                <PanelResizeHandle className="w-2 mx-1 bg-gray-800 hover:bg-blue-600 transition-colors rounded-full cursor-col-resize flex items-center justify-center group">
+                    <div className="h-8 w-1 bg-gray-600 group-hover:bg-white rounded-full transition-colors" />
+                </PanelResizeHandle>
+                {/* Right: Learning Path */}
+                <Panel defaultSize={30} minSize={20} className="flex flex-col min-h-0">
+                    <LearningPath data={learningPath} />
+                </Panel>
+            </PanelGroup>
         </div>
     );
 };
