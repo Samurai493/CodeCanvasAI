@@ -26,7 +26,7 @@ export const LearningPath: React.FC<LearningPathProps> = ({ data }) => {
   const [selectedAnswers, setSelectedAnswers] = useState<{[key: number]: number}>({});
 
   if (!data) return (
-    <div className="h-full flex flex-col items-center justify-center text-gray-500 p-8 text-center border-2 border-dashed border-gray-700 rounded-xl">
+    <div className="h-full flex flex-col items-center justify-center text-gray-500 p-8 text-center border-2 border-gray-700 rounded-xl">
         <GraduationCap className="w-12 h-12 mb-4 opacity-50" />
         <p>Your personalized learning path will appear here after analysis.</p>
     </div>
