@@ -1,4 +1,4 @@
-To install the proper plugins:
+To install the proper plugins run the following in code-canvas-app:
 ## 1. Install dependencies
 In the root of the JavaScript/TypeScript app (where package.json is):
 npm install
