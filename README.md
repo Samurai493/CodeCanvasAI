@@ -8,4 +8,3 @@ vite/client types usually come from the vite package. If you already have vite i
 npm install -D vite
 ## 3. Run the app again
 npm run dev
-(or whatever sc
