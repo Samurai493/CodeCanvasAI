@@ -9,6 +9,21 @@ interface CodeInputProps {
 }
 
 export const CodeInput: React.FC<CodeInputProps> = ({ code, setCode, onAnalyze, isAnalyzing }) => {
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if(!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const content = e.target?.result as string;
+      setCode(content);
+    };
+    reader.readAsText(file);
+    //Reset value so same file can be selected again
+    event.target.value = '';
+  };
   return (
     <div className="flex flex-col h-full bg-gray-900 rounded-xl overflow-hidden border border-gray-700 shadow-xl">
       <div className="flex items-center justify-between px-4 py-3 bg-gray-800 border-b border-gray-700">
@@ -17,9 +32,16 @@ export const CodeInput: React.FC<CodeInputProps> = ({ code, setCode, onAnalyze, 
           <span>Code Editor</span>
         </div>
         <div className="flex gap-2">
+          <input
+            type="file"
+            ref={fileInputRef}
+            className="hidden"
+            accept=".js,.jsx,.ts,.tsx,.py,.java,.c,.cpp,.cs,.go,.rs,.php,.rb,.html,.css,.json,.md,.txt"
+            onChange={handleFileUpload}
+          />
            <button 
             className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-gray-300 bg-gray-700 rounded-lg hover:bg-gray-600 transition-colors"
-            onClick={() => alert("File upload mock")}
+            onClick={() => fileInputRef.current?.click()} 
           >
             <Upload className="w-4 h-4" />
             Upload
