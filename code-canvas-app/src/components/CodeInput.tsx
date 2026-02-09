@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Upload, Code, Play } from 'lucide-react';
+const ACCEPTED_EXTENSIONS = ['.js', '.jsx', '.ts', '.tsx', '.py', '.java', '.c', '.cpp', '.cs', '.go', '.rs', '.php', '.rb', '.html', '.css', '.json', '.md', '.txt'];
 
 interface CodeInputProps {
   code: string;
@@ -9,11 +10,22 @@ interface CodeInputProps {
 }
 
 export const CodeInput: React.FC<CodeInputProps> = ({ code, setCode, onAnalyze, isAnalyzing }) => {
-  const fileInputRef = React.useRef<HTMLInputElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if(!file) return;
+    
+    //check extension
+    const fileName = file.name.toLowerCase();
+    const isValid = ACCEPTED_EXTENSIONS.some(ext => fileName.endsWith(ext));
+
+    if(!isValid) {
+      alert(`Invalid file type. Accepted: ${ACCEPTED_EXTENSIONS.join(', ')}`);
+      //Reset input
+      event.target.value='';
+      return;
+    }
 
     const reader = new FileReader();
     reader.onload = (e) => {
@@ -25,7 +37,7 @@ export const CodeInput: React.FC<CodeInputProps> = ({ code, setCode, onAnalyze, 
     event.target.value = '';
   };
   return (
-    <div className="flex flex-col h-full bg-gray-900 rounded-xl overflow-hidden border border-gray-700 shadow-xl">
+    <div className="flex flex-col h-full bg-gray-900 rounded-xl overflow-hidden border border-gray-700 shadow-xl relative">
       <div className="flex items-center justify-between px-4 py-3 bg-gray-800 border-b border-gray-700">
         <div className="flex items-center gap-2 text-gray-100 font-medium">
           <Code className="w-5 h-5 text-blue-400" />
@@ -36,7 +48,7 @@ export const CodeInput: React.FC<CodeInputProps> = ({ code, setCode, onAnalyze, 
             type="file"
             ref={fileInputRef}
             className="hidden"
-            accept=".js,.jsx,.ts,.tsx,.py,.java,.c,.cpp,.cs,.go,.rs,.php,.rb,.html,.css,.json,.md,.txt"
+            accept={ACCEPTED_EXTENSIONS.join(',')}
             onChange={handleFileUpload}
           />
            <button 
