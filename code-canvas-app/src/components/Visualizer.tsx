@@ -45,7 +45,6 @@ export const Visualizer: React.FC<VisualizerProps> = ({ chart }) => {
             initialScale={1}
             minScale={0.5}
             maxScale={4}
-            centeronInit={true}
             wheel={{ step: 0.1}}
           >
             {({ zoomIn, zoomOut, resetTransform }) => (
